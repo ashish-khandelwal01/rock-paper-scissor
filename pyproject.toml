@@ -1,0 +1,34 @@
+[tool.briefcase]
+project_name = "Rock Paper Scissors"
+bundle = "com.rps.rockpaperscissors"
+version = "0.1.0"
+url = "https://github.com/ashish-khandelwal01/rock-paper-scissor"
+license = "MIT"
+license-files = ["LICENSE"]
+author = "Ashish"
+author_email = "ashish-khandelwal96@gmail.com"
+
+[tool.briefcase.app.rps]
+formal_name = "Rock Paper Scissors"
+description = "Webcam Rock-Paper-Scissors using MediaPipe hand tracking"
+long_description = """A fun webcam-based Rock-Paper-Scissors game that detects hand gestures using MediaPipe and OpenCV."""
+icon = "icon"
+
+sources = [
+    "main.py",
+    "rps",
+    "tasks",
+]
+
+requires = [
+    "mediapipe==1.0.0",
+    "opencv-contrib-python",
+    "numpy",
+    "matplotlib",
+    "pillow",
+    "sounddevice",
+    "std-nslog",
+]
+
+[tool.briefcase.app.rps.macOS]
+universal_build = false

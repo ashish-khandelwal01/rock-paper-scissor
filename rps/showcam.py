@@ -2,6 +2,7 @@ import os
 import cv2
 import mediapipe as mp
 import time
+import sys
 
 from rps.gestureClassifier import classify_gesture
 from rps.rps import select_winner
@@ -39,6 +40,14 @@ STATE_IDLE = "idle"
 STATE_COUNTDOWN = "countdown"
 STATE_COOLDOWN = "cooldown"
 
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        # Running inside the packaged app
+        base = os.path.abspath(os.path.join(os.path.dirname(sys.executable), "..", "Resources", "app"))
+    else:
+        # Running from normal Python / PyCharm
+        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base, relative_path)
 
 def draw_landmarks(frame, hand_landmarks_list):
     h, w, _ = frame.shape
@@ -54,10 +63,11 @@ def draw_landmarks(frame, hand_landmarks_list):
 
 
 def capture_screen():
-    project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
     options = HandLandmarkerOptions(
-        base_options=BaseOptions(model_asset_path=os.path.join(project_dir, "tasks", "hand_landmarker.task")),
+        base_options=BaseOptions(
+            model_asset_path=resource_path(os.path.join("tasks", "hand_landmarker.task")),
+            delegate=BaseOptions.Delegate.CPU  # ← force CPU
+        ),
         running_mode=VisionRunningMode.VIDEO,
         num_hands=1,
         min_hand_detection_confidence=0.7,
