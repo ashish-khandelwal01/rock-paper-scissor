@@ -32,3 +32,5 @@ requires = [
 
 [tool.briefcase.app.rps.macOS]
 universal_build = false
+
+permission.camera = "Rock Paper Scissors needs access to your camera to detect your hand gestures."
